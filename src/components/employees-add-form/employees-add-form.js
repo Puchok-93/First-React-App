@@ -7,10 +7,17 @@ class EmployeesAddForm extends Component {
         this.state = {
             name: '',
             salary: '',
+            disabled: true,
         }
     }
 
     onInputChange = (e) => {
+        if(this.state.name !== '' && this.state.salary !== '') {
+            this.setState({
+                disabled: false
+            })
+        };
+
         this.setState({
             [e.target.name] : e.target.value,
         })
@@ -21,13 +28,14 @@ class EmployeesAddForm extends Component {
         this.props.onAdd(this.state.name, this.state.salary);
         this.setState({
             name: '',
-            salary: ''
+            salary: '',
+            disabled: true,
         })
     }
 
     render() {
-        const {name, salary} = this.state;
-
+        const {name, salary, disabled} = this.state;
+        
         return (
             <div className="app-add-form">
                 <h3>Добавьте нового сотрудника</h3>
@@ -35,8 +43,7 @@ class EmployeesAddForm extends Component {
                     className="add-form d-flex">
                     <input onChange={this.onInputChange} type="text" className="form-control new-post-label" placeholder="Как его зовут?" name="name" value={name}/>
                     <input onChange={this.onInputChange} type="number" className="form-control new-post-label" placeholder="З/П в $?"  name="salary" value={salary}/>
-    
-                    <button type="submit" className="btn btn-outline-light">Добавить</button>
+                    <button type="submit" className="btn btn-outline-light" disabled={disabled}>Добавить</button>
                 </form>
             </div>
         )
